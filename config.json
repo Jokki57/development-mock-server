@@ -1,0 +1,10 @@
+{
+  "api": "https://embed.megogo.net/aprx",
+  "port": 9999,
+  "socketPort": 9998,
+  "mocks": "../mocks",
+  "rules": {
+    ".+qwe": "./config.json",
+    "123.123": "/Users/jurijzakharchuk/Projects/JavaScript/development-mock-server/package.json"
+  }
+}
