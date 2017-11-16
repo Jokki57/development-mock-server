@@ -2,6 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const bodyParser = require('body-parser');
+const http = require('http');
+const https = require('https');
 const SocketServer = require('./socketServer');
 const url = require('url');
 const { ARGS } = require('./consts');
@@ -31,8 +33,6 @@ const API_URL = new url.URL(args[ARGS.API] || config.api || args.defs[ARGS.API])
 const RULES = config.rules || {};
 const HTTPS = args[ARGS.HTTPS] || config.https || args.defs[ARGS.HTTPS];
 
-const httpOrS = require(HTTPS ? 'https' : 'http'); // eslint-disable-line
-
 console.log('api url:', API_URL.href);
 console.log('mocks path:', MOCKS_PATH);
 console.log('protocol:', HTTPS ? 'https' : 'http');
@@ -47,10 +47,10 @@ if (HTTPS) {
     key: fs.readFileSync(path.resolve(__dirname, './cert/key.pem')),
     cert: fs.readFileSync(path.resolve(__dirname, './cert/cert.pem')),
   };
-  httpOrS.createServer(httpsOptions, app)
+  https.createServer(httpsOptions, app)
     .listen(PORT, () => console.log(`DEVELOPMENT-DEV-SERVER listening on port ${PORT}`));
 } else {
-  httpOrS.createServer(app)
+  http.createServer(app)
     .listen(PORT, () => console.log(`DEVELOPMENT-DEV-SERVER listening on port ${PORT}`));
 }
 
@@ -121,7 +121,8 @@ function processRequest(req, res) {
       if (req.method === 'POST') {
         apiOpts.headers['Content-Type'] = 'application/x-www-form-urlencoded';
       }
-      const apiReq = https.request(apiOpts, (apiRes) => {
+      const protocolModule = API_URL.protocol === 'https:' ? https : http;
+      const apiReq = protocolModule.request(apiOpts, (apiRes) => {
         res.set({
           'Content-Type': 'application/json',
         });
