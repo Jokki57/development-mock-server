@@ -1,10 +1,9 @@
 {
   "name": "development-mock-server",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Server for development. Set mocks, link to direct files and send data via sockets",
-  "main": "src/index.js",
   "bin": {
-    "development-mock-server": "src/index"
+    "development-mock-server": "src/index.js"
   },
   "repository": {
     "type": "git",
