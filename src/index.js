@@ -13,13 +13,14 @@ const { ARGS } = require('./consts');
 // Path constants
 const DIRECT_MOCK = '/direct-mock/';
 const BROADCAST = '/broadcast/';
+const DIRNAME = path.resolve(__dirname, '../../../') // move to root folder of project where this module will placed in node_modules
 
 // process args
 const args = require('./processArgs')(process.argv);
 
 let configPath = args[ARGS.CONFIG] || args.defs[ARGS.CONFIG];
 if (!path.isAbsolute(configPath)) {
-  configPath = path.resolve(__dirname, configPath);
+  configPath = path.resolve(DIRNAME, configPath);
 }
 
 const config = require(configPath); // eslint-disable-line
@@ -28,7 +29,7 @@ const PORT = args[ARGS.PORT] || config.port || args.defs[ARGS.PORT];
 
 let MOCKS_PATH = args[ARGS.MOCKS] || config.mocks || args.defs[ARGS.MOCKS];
 if (!path.isAbsolute(MOCKS_PATH)) {
-  MOCKS_PATH = path.resolve(__dirname, MOCKS_PATH);
+  MOCKS_PATH = path.resolve(DIRNAME, MOCKS_PATH);
 }
 
 const API_URL = new url.URL(args[ARGS.API] || config.api || args.defs[ARGS.API]);
@@ -46,8 +47,8 @@ const cache = {};
 
 if (HTTPS) {
   const httpsOptions = {
-    key: fs.readFileSync(path.resolve(__dirname, './cert/key.pem')),
-    cert: fs.readFileSync(path.resolve(__dirname, './cert/cert.pem')),
+    key: fs.readFileSync(path.resolve(DIRNAME, './cert/key.pem')),
+    cert: fs.readFileSync(path.resolve(DIRNAME, './cert/cert.pem')),
   };
   https.createServer(httpsOptions, app)
     .listen(PORT, () => console.log(`DEVELOPMENT-DEV-SERVER listening on port ${PORT}`));
