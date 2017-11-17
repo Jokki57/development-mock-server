@@ -1,7 +1,10 @@
 const net = require('net');
 
+let makeLog;
+
 class SocketServer {
-  constructor(port) {
+  constructor(port, log = console.log) {
+    makeLog = log;
     this.port = port;
     this.sockets = [];
     this.server = null;
@@ -11,13 +14,13 @@ class SocketServer {
   init() {
     this.server = net.createServer();
     this.server.listen(this.port);
-    console.log(`SOCKET server listening on port ${this.server.address().port}`);
+    makeLog(`SOCKET server listening on port ${this.server.address().port}`);
 
     this.server.on('connection', (socket) => {
-      console.log(`CONNECTED: ${socket.remoteAddress}:${socket.remotePort}`);
+      makeLog(`CONNECTED: ${socket.remoteAddress}:${socket.remotePort}`);
 
       socket.on('close', () => {
-        console.log(`CLOSED: ${socket.remoteAddress}:${socket.remotePort}`);
+        makeLog(`CLOSED: ${socket.remoteAddress}:${socket.remotePort}`);
         const index = this.sockets.indexOf(socket);
         if (index !== -1) {
           this.sockets.splice(index, 1);
