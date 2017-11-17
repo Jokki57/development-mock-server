@@ -47,8 +47,8 @@ const cache = {};
 
 if (HTTPS) {
   const httpsOptions = {
-    key: fs.readFileSync(path.resolve(DIRNAME, './cert/key.pem')),
-    cert: fs.readFileSync(path.resolve(DIRNAME, './cert/cert.pem')),
+    key: fs.readFileSync(path.resolve(__dirname, './cert/key.pem')),
+    cert: fs.readFileSync(path.resolve(__dirname, './cert/cert.pem')),
   };
   https.createServer(httpsOptions, app)
     .listen(PORT, () => console.log(`DEVELOPMENT-DEV-SERVER listening on port ${PORT}`));
