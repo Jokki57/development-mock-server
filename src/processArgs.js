@@ -9,7 +9,7 @@ module.exports = (argv) => {
       [ARGS.MOCKS]: './mocks',
       [ARGS.PORT]: '1234',
       [ARGS.SOCKET_PORT]: '1235',
-      [ARGS.CONFIG]: '../config.json',
+      [ARGS.CONFIG]: '../dev-server-config.json',
       [ARGS.HTTPS]: false,
     },
   };

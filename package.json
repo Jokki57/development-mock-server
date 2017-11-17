@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "description": "Server for development. Set mocks, link to direct files and send data via sockets",
   "main": "src/index.js",
+  "bin": {
+    "development-mock-server": "src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jokki57/development-mock-server"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
