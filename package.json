@@ -1,6 +1,6 @@
 {
   "name": "development-mock-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Server for development. Set mocks, link to direct files and send data via sockets",
   "bin": {
     "development-mock-server": "src/index.js"
