@@ -1,22 +1,22 @@
 ### Preamble
 
-Main appointment of this server is mocking api requests. 
+The main appointment of this server is mocking API requests. 
 I developed it for my own purposes (because others mock servers don't satisfy me)
 and then I decided to make it public.
 
 #### With this server you can
 
-- set mocks for requests that satisfy regexp pattern
+- set mocks for requests that satisfy RegExp pattern
 - serve local files
 - broadcast messages to connected clients via socket
 - make `POST` or `GET` request with custom `Origin` & `Referer` headers
 - server on `http` or `https`
-- set options as CLI parameters or in config file
+- set options as CLI parameters or in a config file
 
 ### Usage
 
-##### Mocking
-For mocking you **must** define some `config.json` file and pass it as CLI parameter `--config=...`
+#### Mocking
+For mocking you **must** define some `config.json` file and pass it as CLI parameter `--config=<path_to_config>`
 (of course you can name it as you wish),
 
 **CLI command `development-mock-server --config=./mocks/config.json`**
@@ -31,16 +31,16 @@ For mocking you **must** define some `config.json` file and pass it as CLI param
 }
 ```
 
-Pay attention that property name is RegExp, so no matter what you'll enter there,
-all will be converted in regular expression.
-In property value you enter path to mock, it can be relative or absolute.
-If `development-mock-server` runs as module from node_modules relative path
-will relates to root directory of you project. If you clone it and run something
-like `node development-mock-server/src/index.js` relative path will relates
+Pay attention that the property's name is RegExp, so no matter what you'll enter there,
+all will be converted into a regular expression.
+In property's value, you enter a path to mock, it can be relative or absolute.
+If `development-mock-server` runs as a module from node_modules, the relative path
+will relate to root directory of your project. If you clone it and run something
+like `node development-mock-server/src/index.js`, relative path will relate
 to `development-mock-server` root, and yes, this is evidently.
 
 But you can redefine root directory for relative paths! Just add to your
-_config_ `mocks` property.
+_config file_ `mocks` property.
 ```
 // config.json
 {
@@ -58,8 +58,8 @@ _config_ `mocks` property.
 }
 ```
 
-##### API url
-This is main url request that this server proxy
+#### API url
+This is the main url 
 
 ```
 {
@@ -71,33 +71,33 @@ This is main url request that this server proxy
 ```
 
 So if you make request `http://localhost:1234/get/info?p=1`
-server will make request `https://api.somedomain.com/get/info?p=1` and get
-you response. Also it rewrite `Origin` and `Referer` headers, about this below.
-For example if request will be `http://localhost:1234/as/get332` it will
+the server will make a request to `https://api.somedomain.com/get/info?p=1` and get
+your response. Also, it rewrites `Origin` and `Referer` headers (about this below).
+For example, if request will be `http://localhost:1234/as/get332` it will
 satisfy the rule `[asd]{2}\/get.{1,3}` and server response will be `/Users/user/my-project/mocks/mock.xml`
 (as you can see in config)
 
 
-### Serving files 
+#### Serving files 
 
 You can get direct access to your mocks, just make request to `http://localhost:1234/direct-mock/mock.json`
-As you can see, you need add route path 
+As you can see, you need to add route path 
 #### **`/direct-mock/<relative_path_to_mock>`** 
 in url. All after this
-route path will be relative path to you file. Here you cannot pass absolute paths,
+route path will be relative path to your file. Here you cannot pass absolute paths,
 but in future maybe I'll implement absolute path support
 
-### Message broadcasting
+#### Message broadcasting
 
 To broadcast message you need to make request `http://localhost:1234/broadcast/this-is-message`
 So, as you can see, the same logic as above. You need to add special route path
 
 #### **`/broadcast/<message>`**
-and after that any text message that some client will get. Example of client
+and every client will get `<message>`. Example of client
 for this broadcasting I'll show below
 
 ### Other settings
-All this settings you can put in _config file_ or as CLI parameters
+All these settings you can put in _config file_ or as CLI parameters
 
 ```
 {
