@@ -1,6 +1,0 @@
-
-
-describe('index.js', () => {
-
-
-});

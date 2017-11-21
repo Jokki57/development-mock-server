@@ -5,8 +5,6 @@ jest.mock('net');
 
 test('processArgs', () => {
   const args = processArgs([
-    'porcess path',
-    'process name',
     '--api=test',
     '--mocks=/test/test',
     '--port=1234',

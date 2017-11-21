@@ -14,7 +14,7 @@ module.exports = (argv) => {
   };
   if (Array.isArray(argv)) {
     let keyValue;
-    for (let i = 2, l = argv.length; i < l; ++i) {
+    for (let i = 0, l = argv.length; i < l; ++i) {
       keyValue = argv[i].split('=');
       result[keyValue[0]] = keyValue[1];
     }
