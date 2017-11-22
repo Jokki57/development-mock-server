@@ -19,7 +19,7 @@ class Server {
 
     this.originalDirname = _dirname;
     if (_dirname.indexOf('node_modules') !== -1) {
-      this.dirname = path.resolve(__dirname, '../../../'); // move to root folder of project where this module will placed in node_modules
+      this.dirname = path.resolve(_dirname, '../../../'); // move to root folder of project where this module will placed in node_modules
     } else {
       this.dirname = _dirname;
     }
@@ -28,22 +28,36 @@ class Server {
     if (!path.isAbsolute(configPath)) {
       configPath = path.resolve(this.dirname, configPath);
     }
-    const config = require(configPath); // eslint-disable-line
+    this.config = require(configPath); // eslint-disable-line
 
-    this.socketPort = args[ARGS.SOCKET_PORT] || config.socketPort || args.defs[ARGS.SOCKET_PORT];
-    this.port = args[ARGS.PORT] || config.port || args.defs[ARGS.PORT];
+    this.socketPort = Number(args[ARGS.SOCKET_PORT] || this.config.socketPort || args.defs[ARGS.SOCKET_PORT]);
+    this.port = Number(args[ARGS.PORT] || this.config.port || args.defs[ARGS.PORT]);
 
-    this.mockPath = args[ARGS.MOCKS] || config.mocks || args.defs[ARGS.MOCKS];
+    this.mockPath = args[ARGS.MOCKS] || this.config.mocks || args.defs[ARGS.MOCKS];
     if (!path.isAbsolute(this.mockPath)) {
       this.mockPath = path.resolve(this.dirname, this.mockPath);
     }
 
-    this.apiUrl = new URL(args[ARGS.API] || config.api || args.defs[ARGS.API]);
-    this.rules = config.rules || {};
-    this.referer = args[ARGS.REFERER] || config.referer || this.apiUrl.href;
-    this.origin = args[ARGS.ORIGIN] || config.origin || this.apiUrl.href;
-    this.isHttps = args[ARGS.HTTPS] || config.https || args.defs[ARGS.HTTPS];
-    this.isLog = args[ARGS.LOG] || config.log || args.defs[ARGS.LOG];
+    this.apiUrl = new URL(args[ARGS.API] || this.config.api || args.defs[ARGS.API]);
+    this.rules = this.config.rules || {};
+    this.referer = args[ARGS.REFERER] || this.config.referer || this.apiUrl.href;
+    this.origin = args[ARGS.ORIGIN] || this.config.origin || this.apiUrl.href;
+
+    if (args[ARGS.HTTPS] !== undefined) {
+      this.isHttps = args[ARGS.HTTPS];
+    } else if (this.config.https !== undefined) {
+      this.isHttps = this.config.https;
+    } else {
+      this.isHttps = args.defs[ARGS.HTTPS];
+    }
+
+    if (args[ARGS.LOG] !== undefined) {
+      this.isLog = args[ARGS.LOG];
+    } else if (this.config.log !== undefined) {
+      this.isLog = this.config.log;
+    } else {
+      this.isLog = args.defs[ARGS.LOG];
+    }
 
     if (typeof this.isLog === 'string') {
       this.isLog = this.isLog === 'true';
