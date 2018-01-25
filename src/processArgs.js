@@ -4,10 +4,10 @@ module.exports = (argv) => {
   const result = {
     defs: {
       [ARGS.API]: 'https://localhost',
-      [ARGS.MOCKS]: './mocks',
+      [ARGS.MOCKS]: '',
       [ARGS.PORT]: '1234',
       [ARGS.SOCKET_PORT]: '1235',
-      [ARGS.CONFIG]: './dev-server-config.json',
+      [ARGS.CONFIG]: '../dev-server-config.json',
       [ARGS.HTTPS]: false,
       [ARGS.LOG]: true,
     },

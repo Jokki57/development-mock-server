@@ -14,7 +14,6 @@ class SocketServer {
   init() {
     this.server = net.createServer();
     this.server.listen(this.port);
-    makeLog(`SOCKET server listening on port ${this.server.address().port}`);
 
     this.server.on('connection', (socket) => {
       makeLog(`CONNECTED: ${socket.remoteAddress}:${socket.remotePort}`);
@@ -28,6 +27,10 @@ class SocketServer {
       });
 
       this.sockets.push(socket);
+    });
+
+    this.server.on('listening', () => {
+      makeLog(`SOCKET server listening on port ${this.server.address().port}`);
     });
   }
 
